@@ -1,8 +1,8 @@
-import { ContactProps } from "../../routes/contact";
 import { Form } from "react-router-dom";
+import { ContactType } from "../../models/Contact";
 
 interface FavoriteProps {
-  contact: ContactProps;
+  contact: ContactType;
 }
 
 export function Favorite({ contact }: FavoriteProps) {
