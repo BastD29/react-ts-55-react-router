@@ -18,4 +18,16 @@ async function contactLoader(
   if (contact) return contact;
 }
 
+// * rootLoader with search
+// async function rootLoader({
+//   request,
+// }: {
+//   request: { url: string };
+// }): Promise<ContactsType> {
+//   const url = new URL(request.url);
+//   const q = url.searchParams.get("q") ?? undefined;
+//   const contacts = await getContacts(q);
+//   return { contacts };
+// }
+
 export { rootLoader, contactLoader };

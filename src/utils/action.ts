@@ -1,13 +1,9 @@
 import { ActionFunctionArgs, redirect } from "react-router-dom";
-import { createContact, updateContact } from "./contact";
+import { createContact, deleteContact, updateContact } from "./contact";
 
-interface Contact {
-  id: string;
-}
-
-async function rootAction(): Promise<{ contact: Contact }> {
+async function rootAction(): Promise<Response> {
   const contact = await createContact();
-  return { contact };
+  return redirect(`/contacts/${contact.id}/edit`);
 }
 
 async function editAction({
@@ -15,7 +11,6 @@ async function editAction({
   params,
 }: ActionFunctionArgs<any>): Promise<Response> {
   if (!params.contactId) {
-    // Handle the case where contactId is missing or undefined
     throw new Error("Contact ID is required.");
   }
 
@@ -25,4 +20,18 @@ async function editAction({
   return redirect(`/contacts/${params.contactId}`);
 }
 
-export { rootAction, editAction };
+async function destroyAction({
+  params,
+}: ActionFunctionArgs<any>): Promise<Response> {
+  const contactId = params.contactId;
+
+  if (typeof contactId !== "string") {
+    throw new Error("contactId must be a string");
+  }
+
+  await deleteContact(contactId);
+
+  return redirect("/");
+}
+
+export { rootAction, editAction, destroyAction };

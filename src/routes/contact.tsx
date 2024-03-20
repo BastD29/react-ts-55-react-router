@@ -2,16 +2,6 @@ import { Form, useLoaderData } from "react-router-dom";
 import { Favorite } from "../components/Favorite/Favorite";
 import { ContactType } from "../models/Contact";
 
-// const contact: ContactType = {
-//   first: "Your",
-//   last: "Name",
-//   //   avatar: "https://placekitten.com/g/200/200",
-//   avatar: "",
-//   twitter: "your_handle",
-//   notes: "Some notes",
-//   favorite: true,
-// };
-
 export default function Contact() {
   const contact = useLoaderData() as ContactType;
 

@@ -3,7 +3,7 @@ import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 import { ContactType } from "../models/Contact";
 
-export async function getContacts(query?: string): Promise<ContactType[]> {
+async function getContacts(query?: string): Promise<ContactType[]> {
   await fakeNetwork(`getContacts:${query}`);
   let contacts = await localforage.getItem<ContactType[]>("contacts");
   if (!contacts) contacts = [];
@@ -14,7 +14,7 @@ export async function getContacts(query?: string): Promise<ContactType[]> {
   return contacts.sort(sortBy("last", "createdAt")) as ContactType[];
 }
 
-export async function createContact(): Promise<ContactType> {
+async function createContact(): Promise<ContactType> {
   await fakeNetwork();
   let id = Math.random().toString(36).substring(2, 9);
   let contact: ContactType = { id, createdAt: Date.now() };
@@ -24,7 +24,7 @@ export async function createContact(): Promise<ContactType> {
   return contact;
 }
 
-export async function getContact(id: string): Promise<ContactType | null> {
+async function getContact(id: string): Promise<ContactType | null> {
   await fakeNetwork(`contact:${id}`);
   let contacts = await localforage.getItem<ContactType[]>("contacts");
   // Immediately default to an empty array if null
@@ -33,7 +33,7 @@ export async function getContact(id: string): Promise<ContactType | null> {
   return contact ?? null;
 }
 
-export async function updateContact(
+async function updateContact(
   id: string,
   updates: Partial<ContactType>
 ): Promise<ContactType> {
@@ -48,7 +48,7 @@ export async function updateContact(
   return contact;
 }
 
-export async function deleteContact(id: string): Promise<boolean> {
+async function deleteContact(id: string): Promise<boolean> {
   let contacts = await localforage.getItem<ContactType[]>("contacts");
   // Immediately default to an empty array if null
   if (!contacts) contacts = [];
@@ -89,3 +89,13 @@ async function fakeNetwork(key?: string): Promise<void> {
     setTimeout(resolve, Math.random() * 800);
   });
 }
+
+export {
+  createContact,
+  deleteContact,
+  fakeNetwork,
+  getContact,
+  getContacts,
+  updateContact,
+  set,
+};
